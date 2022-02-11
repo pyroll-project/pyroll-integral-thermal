@@ -1,10 +1,12 @@
 import sys
+from typing import Sequence
 
-from pyroll import RollPass, Transport
-from pyroll.ui.html_report.plugins import plugins, hookimpl
+import numpy as np
+from pyroll import RollPass, Transport, Unit
+from pyroll.ui.report import Report, utils
 
 
-@hookimpl
+@Report.hookimpl
 def roll_pass_property(roll_pass: RollPass):
     return [
         ("temperature change", "{:.2g}".format(roll_pass.temperature_change)),
@@ -13,7 +15,7 @@ def roll_pass_property(roll_pass: RollPass):
     ]
 
 
-@hookimpl
+@Report.hookimpl
 def transport_property(transport: Transport):
     return [
         ("temperature change", "{:.2g}".format(transport.temperature_change)),
@@ -23,4 +25,27 @@ def transport_property(transport: Transport):
     ]
 
 
-plugins.register(sys.modules[__name__])
+@Report.hookimpl
+def sequence_plot(units: Sequence[Unit]):
+    """Plot the temperatures of all profiles"""
+    fig, ax = utils.create_sequence_plot(units)
+    ax.set_ylabel(r"temperature $T$")
+    ax.set_title("Mean Profile Temperatures")
+
+    units = list(units)
+    if len(units) > 0:
+        def gen_seq():
+            yield -0.5, units[0].in_profile.temperature
+            for i, u in enumerate(units):
+                yield i + 0.5, u.out_profile.temperature
+
+        x, y = np.transpose(
+            list(gen_seq())
+        )
+
+        ax.plot(x, y, marker="x")
+
+        return fig
+
+
+Report.plugin_manager.register(sys.modules[__name__])

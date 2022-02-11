@@ -11,4 +11,4 @@ from pyroll import RollPassOutProfile, TransportOutProfile
 RollPassOutProfile.hooks.add("temperature")
 TransportOutProfile.hooks.add("temperature")
 
-from . import report
+from . import report_impls
