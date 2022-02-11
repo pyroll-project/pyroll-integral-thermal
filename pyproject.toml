@@ -11,6 +11,7 @@ license = "GPL-3.0-only"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pyroll = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 
