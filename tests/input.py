@@ -35,7 +35,7 @@ sequence = [
         in_profile_rotation=0,
         roll_radius=200,
         roll_temperature=303,
-        velocity=50e3,
+        velocity=1e3,
         gap=3
     ),
     Transport(
@@ -57,7 +57,7 @@ sequence = [
         in_profile_rotation=90,
         roll_radius=200,
         roll_temperature=303,
-        velocity=50e3,
+        velocity=1e3,
         gap=3
     ),
 ]

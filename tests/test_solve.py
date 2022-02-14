@@ -1,13 +1,32 @@
-import subprocess
 from pathlib import Path
+from click.testing import CliRunner
+
+import pytest
 
 THIS_DIR = Path(__file__).parent
-INPUT = THIS_DIR / "input.py"
-CONFIG = THIS_DIR / "config.yaml"
+INPUT = (THIS_DIR / "input.py").read_text()
+CONFIG = (THIS_DIR / "config.yaml").read_text()
 
 
-def test_solve(tmp_path: Path):
-    (tmp_path / "input.py").write_text(INPUT.read_text())
-    (tmp_path / "config.yaml").write_text(CONFIG.read_text())
+def test_solve(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    from pyroll.ui.cli.program import main
 
-    subprocess.run(("pyroll", "input-py", "solve", "report"), cwd=tmp_path).check_returncode()
+    (tmp_path / "input.py").write_text(INPUT)
+    (tmp_path / "config.yaml").write_text(CONFIG)
+
+    monkeypatch.chdir(tmp_path)
+    runner = CliRunner()
+    result = runner.invoke(
+        main,
+        [
+            "input-py",
+            "solve",
+            "report",
+        ],
+
+    )
+
+    print("\n")
+    print((tmp_path / "pyroll.log").read_text())
+
+    print(f"\nfile:/{tmp_path / 'report.html'}")
