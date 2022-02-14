@@ -1,8 +1,10 @@
 \documentclass{template/PyRollDocs}
 
 \glsxtrresourcefile{template/symbols}
+\glsxtrresourcefile{thermal-symbols}
 
-\input{template/symbols.tex}
+\usepackage{symbols}
+\usepackage{thermal-symbols}
 
 \begin{document}
     \author{Max Weiner}
@@ -11,12 +13,10 @@
 
     \maketitle
 
-    \X abc
 
-    \begin{equation}
-        \X = \RollRadius
-        \label{eq:1}
-    \end{equation}
+    \input{roll_pass}
+    \input{transport}
+    \input{usage}
 
 %    \printunsrtsymbols
 \end{document}

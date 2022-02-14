@@ -1,0 +1,36 @@
+\section{Im Walzstich}\label{sec:im-walzstich}
+
+Im Walzstich treten andere Wärmeübergangsmechanismen als auf Transportstrecken auf.
+Konvektion und Strahlung sollen hier ob der kleinen freien Oberflächen, der geringeren Übergangskoeffizienten und der kurzen Zeiten des Durchtritts durch den Walzspalt als vernachlässigbar angesehen werden.
+Dagegen tritt Wärmeübergang durch metallischen Kontakt mit den Walzen, sowie Wärmegenerierung durch Umformung auf.
+Die Temperaturänderung entlang im Walzstich ergibt sich also zu
+
+\begin{equation}
+    \TemperatureChange = \TemperatureChangeDeformation + \TemperatureChangeContact
+    \label{eq:DeltaT-stich}
+\end{equation}
+
+Die einzelnen Beiträge werden im folgenden erläutert.
+
+\subsection{Umformung}\label{subsec:im-walzstich-umformung}
+
+Die Umformleistung wird zum einen in der Mikrostruktur des Werkstoffes gespeichert, zum weit größeren Teil aber als Wärme dissipiert.
+Überschlägig kann ein dissipierter Anteil von \SI{95}{\percent} angesetzt werden.
+\FlowStress ist der Umformwiderstand, welcher zum einen von der Fließspannung des Werkstoffes, zum anderen von der Geometrie des Walzspaltes abhängig ist.
+$\Delta\EquivalentStrain$ ist die Formänderung im Walzstich.
+
+\begin{equation}
+    \TemperatureChangeContact = \num{0.95} \frac{\FlowStress \Delta\EquivalentStrain}{\MassDensity \HeatCapacity}
+    \label{eq:DeltaTU}
+\end{equation}
+
+\subsection{Kontakt}\label{subsec:im-walzstich-kontakt}
+
+Über die gedrückte Fläche \ContactArea geht Wärme vom Walzgut in die Walzen mit der Temperatur \RollTemperature über.
+Der Koeffizient \TransferCoefficientContact fällt hier weit höher als bei Konvektion aus, ugf. \SIrange{2000}{6000}{\watt\per\square\meter\per\kelvin}.
+Das Volumen des Walzgutes im Walzspalt wird hierbei zu $\Volume = \ContactLength \left( \ProfileCrossSection_\IndexEntry + \ProfileCrossSection_\IndexExit \right) / 2$ angenommen.
+
+\begin{equation}
+    \TemperatureChangeContact = \frac{\TransferCoefficientContact \ContactArea \left( \Temperature - \RollTemperature \right) \Time}{\Volume \MassDensity \HeatCapacity}
+    \label{eq:DeltaTC}
+\end{equation}

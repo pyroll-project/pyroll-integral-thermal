@@ -1,0 +1,46 @@
+\section{Auf Transportstrecken}\label{sec:transport}
+
+In den Zwischenräumen zwischen den Gerüsten sowie auf Kühlstrecken kühlt das Walzgut durch Wärmeabgabe an die Umgebung aus.
+Diese Bereiche sollen hier als Transport bezeichnet werden.
+Dabei treten 3 hauptsächliche Mechanismen des Wärmeübergangs auf: Kovektion, Wasserkühlung und Strahlung.
+Die Temperaturänderung entlang der Transportstrecke ergibt sich also zu
+
+\begin{equation}
+    \TemperatureChange = \TemperatureChangeConvection + \TemperatureChangeWater + \TemperatureChangeRadiation
+    \label{eq:DeltaT-transport}
+\end{equation}
+
+Die einzelnen Beiträge werden im folgenden erläutert.
+
+\subsection{Konvektion}\label{subsec:transport-konvektion}
+
+Wärmeübergang durch Konvektion bzw.\ durch direkten Kontakt mit der Atmosphäre wird über ein einfaches Wärmeübergangskoeffizientenkonzept modelliert.
+Benötigte Eingabewerte sind der Koeffizient \TransferCoefficientConvection und die Umgebungstemperatur \EnvironmentTemperature.
+Überschlägig kann $\TransferCoefficientConvection \approx \SI{15}{\watt\per\square\meter\per\kelvin}$ angenommen werden.
+\ProfileCrossSection ist der Profilquerschnitt, \ProfilePerimeter dessen Umfang.
+Die für den Transport benötigte Zeit \Time ist ein Eingabewert.
+
+\begin{equation}
+    \TemperatureChangeConvection = \frac{\TransferCoefficientConvection \ProfilePerimeter \left( \Temperature - \EnvironmentTemperature \right) \Time}{\ProfileCrossSection \MassDensity \HeatCapacity}
+    \label{eq:DeltaTK}
+\end{equation}
+
+\subsection{Wasserkühlung}\label{subsec:transport-wasserkuehlung}
+
+Die Wasserkühlung wird ebenso über einen Wärmeübergangskoeffizienten \TransferCoefficientWater modelliert, aber getrennt betrachtet da sich der Koeffizient von dem der Konvektion unterscheidet und die Wassertemperatur \WaterTemperature im allgmeinen ungleich \EnvironmentTemperature ist.
+
+\begin{equation}
+    \TemperatureChangeWater = \frac{\TransferCoefficientWater \ProfilePerimeter \left( \Temperature - \WaterTemperature \right) \Time}{\ProfileCrossSection \MassDensity \HeatCapacity}
+    \label{eq:DeltaTW}
+\end{equation}
+
+\subsection{Strahlung}\label{subsec:transport-strahlung}
+
+Das Stefan-Boltzmann-Strahlungsgesetz ist im Unterschied zu den anderen beiden Ansätzen nichtlinear.
+Die Strahlungsleistungs ändert sich mit der vierten Potenz der Temperatur.
+$\BoltzmannRadiationCoefficient = \SI{5.6704}{\watt\per\square\meter\per\kelvin^4}$ ist die Stefan-Boltzmann-Konstante, \RelativeBoltzmannRadiationCoefficient der relative Strahlungskoeffizient.
+
+\begin{equation}
+    \TemperatureChangeRadiation = \frac{\ProfilePerimeter \RelativeBoltzmannRadiationCoefficient \BoltzmannRadiationCoefficient \left( \Temperature^4 - \EnvironmentTemperature^4 \right)}{\ProfileCrossSection \MassDensity \HeatCapacity}
+    \label{eq:DeltaTS}
+\end{equation}

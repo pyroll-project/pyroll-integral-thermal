@@ -6,12 +6,17 @@ import latex_dependency_scanner
 from config import ROOT_NAME, ROOT_TEX, ROOT_PDF
 from docs.template.symbols import generate_symbols_tex
 
-LATEX_OPTS = ("--interaction=nonstopmode", "--synctex=1")
+LATEX_OPTS = ("--halt-on-error", "--synctex=1")
 
 
-@pytask.mark.depends_on("template/symbols.bib")
-@pytask.mark.produces("template/symbols.tex")
-def task_template_symbols(depends_on: Path, produces: Path):
+@pytask.mark.parametrize(
+    ("depends_on", "produces"),
+    [
+        ("thermal-symbols.bib", "thermal-symbols.sty"),
+        ("template/symbols.bib", "symbols.sty"),
+    ]
+)
+def task_symbols(depends_on: Path, produces: Path):
     produces.write_text(
         generate_symbols_tex(
             depends_on.read_text(),
