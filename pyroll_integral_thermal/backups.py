@@ -6,19 +6,19 @@ from pyroll import RollPass, Transport
 @RollPass.hookimpl
 def contact_heat_transfer_coefficient(roll_pass: RollPass):
     """Backup implementation"""
-    return 6
+    return 6e3
 
 
 @Transport.hookimpl
 def convection_heat_transfer_coefficient(transport: Transport):
     """Backup implementation"""
-    return 1.5e-3
+    return 1.5
 
 
 @Transport.hookimpl
 def cooling_heat_transfer_coefficient(transport: Transport):
     """Backup implementation"""
-    return 15e-3
+    return 15
 
 
 @Transport.hookimpl

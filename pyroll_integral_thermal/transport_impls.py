@@ -2,7 +2,7 @@ import sys
 
 from pyroll import Transport, TransportOutProfile
 
-boltzmann_coefficient = 5.67e-8 * 1e-3
+stefan_boltzmann_coefficient = 5.670374419e-8
 
 
 @Transport.hookimpl
@@ -44,7 +44,7 @@ def temperature_change_by_radiation(transport: Transport):
 
     mean_temperature = transport.mean_temperature
 
-    by_radiation = -transport.relative_radiation_coefficient * boltzmann_coefficient * (
+    by_radiation = -transport.relative_radiation_coefficient * stefan_boltzmann_coefficient * (
             mean_temperature ** 4 - transport.atmosphere_temperature ** 4) * common_factor
 
     return by_radiation
