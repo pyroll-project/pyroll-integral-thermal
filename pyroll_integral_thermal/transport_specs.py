@@ -4,6 +4,16 @@ from pyroll import Transport, TransportOutProfile
 
 
 @Transport.hookspec
+def atmosphere_temperature(transport: Transport):
+    """Get the temperature of the surrounding atmosphere."""
+
+
+@Transport.hookspec
+def cooling_water_temperature(transport: Transport):
+    """Get the temperature of the cooling water."""
+
+
+@Transport.hookspec
 def convection_heat_transfer_coefficient(transport: Transport):
     """Get the heat transfer coefficient for contact of rolls and workpiece."""
 

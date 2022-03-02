@@ -4,6 +4,11 @@ from pyroll import RollPass, RollPassOutProfile
 
 
 @RollPass.hookspec
+def roll_temperature(roll_pass: RollPass):
+    """Get the mean temperature of the working rolls."""
+
+
+@RollPass.hookspec
 def contact_heat_transfer_coefficient(roll_pass: RollPass):
     """Get the heat transfer coefficient for contact of rolls and workpiece."""
 

@@ -6,58 +6,48 @@ from numpy import pi
 
 # initial profile
 in_profile = Profile(
-    width=68,
-    height=68,
-    groove=SquareGroove(r1=0, r2=3, tip_angle=pi / 2, tip_depth=34),
+    width=68e-3,
+    height=68e-3,
+    groove=SquareGroove(r1=0, r2=3e-3, tip_angle=pi / 2, tip_depth=34e-3),
     temperature=1200 + 273.15,
     strain=0,
-    density=7e-3,
+    density=7e3,
     thermal_capacity=630,
-    thermal_conductivity=25,
-    thermal_expansion_coefficient=1.2e-5,
-    geuze_coefficient=0.3,
     material="S355J2",
-    mean_grain_size=50,
-    flow_stress=50
+    flow_stress=50e6
 )
-
 
 # pass sequence
 sequence = [
     RollPass(
         label="Raute I",
         groove=DiamondGroove(
-            usable_width=76.55,
-            tip_depth=(47.2 - 3) / 2,
-            r1=12,
-            r2=8
+            usable_width=76.55e-3,
+            tip_depth=22.1e-3,
+            r1=12e-3,
+            r2=8e-3
         ),
-        in_profile_rotation=0,
-        roll_radius=200,
+        roll_radius=260e-3,
         roll_temperature=303,
-        velocity=1e3,
-        gap=3
+        velocity=1.4,
+        gap=3e-3,
+        geuze_coefficient=0.3,
     ),
     Transport(
-        time=5,
-        atmosphere_temperature=293,
-        convection_heat_transfer_coefficient=15e-3,
-        cooling_heat_transfer_coefficient=0,
-        cooling_water_temperature=0,
-        relative_radiation_coefficient=0.8
+        time=1
     ),
     RollPass(
         label="Quadrat II",
         groove=SquareGroove(
-            usable_width=52.7,
-            tip_depth=(54.9 - 3) / 2,
-            r1=8,
-            r2=6
+            usable_width=52.7e-3,
+            tip_depth=25.95e-3,
+            r1=8e-3,
+            r2=6e-3
         ),
-        in_profile_rotation=90,
-        roll_radius=200,
+        roll_radius=260e-3,
         roll_temperature=303,
-        velocity=1e3,
-        gap=3
+        velocity=1.4,
+        gap=3e-3,
+        geuze_coefficient=0.3,
     ),
 ]

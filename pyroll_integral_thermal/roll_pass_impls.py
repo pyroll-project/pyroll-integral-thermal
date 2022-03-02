@@ -4,7 +4,16 @@ from pyroll import RollPass, RollPassOutProfile
 
 
 @RollPass.hookimpl
+def roll_temperature(roll_pass: RollPass):
+    """Backup roll temperature at 293.15 K."""
+    return 293.15
+
+
+@RollPass.hookimpl
 def temperature_change_by_contact(roll_pass: RollPass):
+    if roll_pass.roll_temperature is None:
+        return None
+
     volume = (roll_pass.in_profile.cross_section + roll_pass.out_profile.cross_section) / 2 * roll_pass.contact_length
     area_volume_ratio = roll_pass.contact_area * 2 / volume
     time = roll_pass.contact_length / roll_pass.velocity

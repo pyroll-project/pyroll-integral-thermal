@@ -6,7 +6,16 @@ stefan_boltzmann_coefficient = 5.670374419e-8
 
 
 @Transport.hookimpl
+def atmosphere_temperature(transport: Transport):
+    """Backup atmosphere temperature at 293.15 K."""
+    return 293.15
+
+
+@Transport.hookimpl
 def temperature_change_by_convection(transport: Transport):
+    if transport.atmosphere_temperature is None:
+        return None
+
     common_factor = transport.in_profile.perimeter * transport.time / transport.in_profile.cross_section / (
             (transport.in_profile.density + transport.out_profile.density)
             * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
@@ -22,6 +31,9 @@ def temperature_change_by_convection(transport: Transport):
 
 @Transport.hookimpl
 def temperature_change_by_cooling(transport: Transport):
+    if transport.cooling_water_temperature is None:
+        return 0
+
     common_factor = transport.in_profile.perimeter * transport.time / transport.in_profile.cross_section / (
             (transport.in_profile.density + transport.out_profile.density)
             * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
@@ -37,6 +49,9 @@ def temperature_change_by_cooling(transport: Transport):
 
 @Transport.hookimpl
 def temperature_change_by_radiation(transport: Transport):
+    if transport.atmosphere_temperature is None:
+        return None
+
     common_factor = transport.in_profile.perimeter * transport.time / transport.in_profile.cross_section / (
             (transport.in_profile.density + transport.out_profile.density)
             * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)

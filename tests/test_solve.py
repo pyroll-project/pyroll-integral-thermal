@@ -27,6 +27,10 @@ def test_solve(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     )
 
     print("\n")
-    print((tmp_path / "pyroll.log").read_text())
+    print(result.stdout)
+    print(result.exception)
 
-    print(f"\nfile:/{tmp_path / 'report.html'}")
+    assert result.exception is None
+    assert result.exit_code == 0
+
+
