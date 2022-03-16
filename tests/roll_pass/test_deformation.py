@@ -15,6 +15,7 @@ class DummyRollPass:
         self.out_profile = DummyProfile()
         self.strain_change = 1
         self.mean_flow_stress = 1
+        self.deformation_heat_efficiency = 0.95
 
 
 def test_deformation():
