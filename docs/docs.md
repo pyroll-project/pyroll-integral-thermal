@@ -12,9 +12,8 @@ The thermal model implemented here is a simple approach estimating the temperatu
 transport, without local resolution. Roll passes and transports differ in the main contributions to temperature change
 and the geometry of the workpiece.
 
-[^HenselPoluchin1990]:
-A. Hensel, P. I. Poluchin, W. P. Poluchin: Technologie der Metallformung. Deutscher Verlag für Grundstoffindustrie,
-Leipzig, 1990
+[^HenselPoluchin1990]: A. Hensel, P. I. Poluchin, W. P. Poluchin: Technologie der Metallformung. Deutscher Verlag für Grundstoffindustrie, Leipzig, 1990
+
 
 ### Transports
 
