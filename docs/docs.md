@@ -1,6 +1,7 @@
 ---
 title: The PyRoll Integral Thermal Plugin  
-author: Max Weiner date: 16.03.2022
+author: Max Weiner  
+date: 16.03.2022
 ---
 
 ## Model approach
