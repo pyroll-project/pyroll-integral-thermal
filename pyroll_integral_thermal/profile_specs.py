@@ -14,4 +14,3 @@ def thermal_capacity(profile: Profile):
 
 
 Profile.plugin_manager.add_hookspecs(sys.modules[__name__])
-Profile.plugin_manager.register(sys.modules[__name__])

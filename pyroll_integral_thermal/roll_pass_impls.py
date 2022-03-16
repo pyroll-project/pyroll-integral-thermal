@@ -5,14 +5,26 @@ from pyroll import RollPass, RollPassOutProfile
 
 @RollPass.hookimpl
 def roll_temperature(roll_pass: RollPass):
-    """Backup roll temperature at 293.15 K."""
+    """Default roll temperature at 293.15 K."""
     return 293.15
+
+
+@RollPass.hookimpl
+def deformation_heat_efficiency(roll_pass: RollPass):
+    """Default implementation"""
+    return 0.95
+
+
+@RollPass.hookimpl
+def contact_heat_transfer_coefficient(roll_pass: RollPass):
+    """Default implementation"""
+    return 6e3
 
 
 @RollPass.hookimpl
 def temperature_change_by_contact(roll_pass: RollPass):
     if roll_pass.roll_temperature is None:
-        return None
+        return 0
 
     volume = (roll_pass.in_profile.cross_section + roll_pass.out_profile.cross_section) / 2 * roll_pass.contact_length
     area_volume_ratio = roll_pass.contact_area * 2 / volume
@@ -40,7 +52,7 @@ def temperature_change_by_deformation(roll_pass: RollPass):
                           (roll_pass.in_profile.density + roll_pass.out_profile.density)
                           * (roll_pass.in_profile.thermal_capacity + roll_pass.out_profile.thermal_capacity)
                   ) / 2
-    by_deformation = 0.95 * deformation_resistance * roll_pass.strain_change / denominator
+    by_deformation = roll_pass.deformation_heat_efficiency * deformation_resistance * roll_pass.strain_change / denominator
 
     return by_deformation
 

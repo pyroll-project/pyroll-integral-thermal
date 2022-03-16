@@ -9,6 +9,11 @@ def roll_temperature(roll_pass: RollPass):
 
 
 @RollPass.hookspec
+def deformation_heat_efficiency(roll_pass: RollPass):
+    """Efficiency of heat generation through deformation. 1 means that all forming energy is dissipated as heat, 0 that all energy is saved in microstructure."""
+
+
+@RollPass.hookspec
 def contact_heat_transfer_coefficient(roll_pass: RollPass):
     """Get the heat transfer coefficient for contact of rolls and workpiece."""
 
