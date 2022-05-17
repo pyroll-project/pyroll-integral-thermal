@@ -2,13 +2,13 @@ import sys
 from typing import Sequence
 
 import numpy as np
-from pyroll import RollPass, Transport, Unit
-from pyroll.ui.report import Report, utils
-from pyroll.utils.hookutils import applies_to_unit_types
+from pyroll.core import RollPass, Transport, Unit
+from pyroll.ui.reporter import Reporter, utils
+from pyroll.utils import for_units
 
 
-@Report.hookimpl(specname="unit_properties")
-@applies_to_unit_types(RollPass)
+@Reporter.hookimpl(specname="unit_properties")
+@for_units(RollPass)
 def pass_properties(unit: RollPass):
     return {
         "temperature change": "{:.2g}".format(unit.temperature_change),
@@ -17,8 +17,8 @@ def pass_properties(unit: RollPass):
     }
 
 
-@Report.hookimpl(specname="unit_properties")
-@applies_to_unit_types(Transport)
+@Reporter.hookimpl(specname="unit_properties")
+@for_units(Transport)
 def transport_properties(unit: Transport):
     return {
         "temperature change": "{:.2g}".format(unit.temperature_change),
@@ -28,7 +28,7 @@ def transport_properties(unit: Transport):
     }
 
 
-@Report.hookimpl
+@Reporter.hookimpl
 def sequence_plot(units: Sequence[Unit]):
     """Plot the temperatures of all profiles"""
     fig, ax = utils.create_sequence_plot(units)
@@ -51,4 +51,4 @@ def sequence_plot(units: Sequence[Unit]):
         return fig
 
 
-Report.plugin_manager.register(sys.modules[__name__])
+Reporter.plugin_manager.register(sys.modules[__name__])

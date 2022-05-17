@@ -1,6 +1,6 @@
 import sys
 
-from pyroll import Transport, TransportOutProfile
+from pyroll.core import Transport
 
 stefan_boltzmann_coefficient = 5.670374419e-8
 
@@ -31,15 +31,17 @@ def atmosphere_temperature(transport: Transport):
 
 @Transport.hookimpl
 def temperature_change_by_convection(transport: Transport):
-    if transport.atmosphere_temperature is None:
+    if not hasattr(transport, "atmosphere_temperature"):
         return 0
 
-    common_factor = transport.in_profile.perimeter * transport.time / transport.in_profile.cross_section / (
-            (transport.in_profile.density + transport.out_profile.density)
-            * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-    ) * 2
+    common_factor = (
+            transport.in_profile.cross_section.length * transport.duration / transport.in_profile.cross_section.area
+            / (
+                    (transport.in_profile.density + transport.out_profile.density)
+                    * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
+            ) * 2)
 
-    mean_temperature = transport.mean_temperature
+    mean_temperature = (transport.in_profile.temperature + 2 * transport.out_profile.temperature) / 3
 
     by_convection = -transport.convection_heat_transfer_coefficient * (
             mean_temperature - transport.atmosphere_temperature) * common_factor
@@ -49,15 +51,17 @@ def temperature_change_by_convection(transport: Transport):
 
 @Transport.hookimpl
 def temperature_change_by_cooling(transport: Transport):
-    if transport.cooling_water_temperature is None:
+    if not hasattr(transport, "cooling_water_temperature"):
         return 0
 
-    common_factor = transport.in_profile.perimeter * transport.time / transport.in_profile.cross_section / (
-            (transport.in_profile.density + transport.out_profile.density)
-            * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-    ) * 2
+    common_factor = (
+            transport.in_profile.cross_section.length * transport.duration / transport.in_profile.cross_section.area
+            / (
+                    (transport.in_profile.density + transport.out_profile.density)
+                    * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
+            ) * 2)
 
-    mean_temperature = transport.mean_temperature
+    mean_temperature = (transport.in_profile.temperature + 2 * transport.out_profile.temperature) / 3
 
     by_cooling = -transport.cooling_heat_transfer_coefficient * (
             mean_temperature - transport.cooling_water_temperature) * common_factor
@@ -67,15 +71,17 @@ def temperature_change_by_cooling(transport: Transport):
 
 @Transport.hookimpl
 def temperature_change_by_radiation(transport: Transport):
-    if transport.atmosphere_temperature is None:
+    if not hasattr(transport, "atmosphere_temperature"):
         return 0
 
-    common_factor = transport.in_profile.perimeter * transport.time / transport.in_profile.cross_section / (
-            (transport.in_profile.density + transport.out_profile.density)
-            * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-    ) * 2
+    common_factor = (
+            transport.in_profile.cross_section.length * transport.duration / transport.in_profile.cross_section.area
+            / (
+                    (transport.in_profile.density + transport.out_profile.density)
+                    * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
+            ) * 2)
 
-    mean_temperature = transport.mean_temperature
+    mean_temperature = (transport.in_profile.temperature + 2 * transport.out_profile.temperature) / 3
 
     by_radiation = -transport.relative_radiation_coefficient * stefan_boltzmann_coefficient * (
             mean_temperature ** 4 - transport.atmosphere_temperature ** 4) * common_factor
@@ -92,10 +98,10 @@ def temperature_change(transport: Transport):
     )
 
 
-@TransportOutProfile.hookimpl
+@Transport.OutProfile.hookimpl
 def temperature(transport: Transport):
     return transport.in_profile.temperature + transport.temperature_change
 
 
 Transport.plugin_manager.register(sys.modules[__name__])
-TransportOutProfile.plugin_manager.register(sys.modules[__name__])
+Transport.OutProfile.plugin_manager.register(sys.modules[__name__])

@@ -1,36 +1,36 @@
+import logging
+from importlib import reload
 from pathlib import Path
-from click.testing import CliRunner
 
-import pytest
-
-THIS_DIR = Path(__file__).parent
-INPUT = (THIS_DIR / "input.py").read_text()
-CONFIG = (THIS_DIR / "config.yaml").read_text()
+from pyroll.core import solve, RollPass
+from pyroll.ui import Reporter
 
 
-def test_solve(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    from pyroll.ui.cli.program import main
+def test_solve(tmp_path: Path, caplog):
+    caplog.set_level(logging.DEBUG, logger="pyroll")
 
-    (tmp_path / "input.py").write_text(INPUT)
-    (tmp_path / "config.yaml").write_text(CONFIG)
+    import pyroll.integral_thermal
 
-    monkeypatch.chdir(tmp_path)
-    runner = CliRunner()
-    result = runner.invoke(
-        main,
-        [
-            "input-py",
-            "solve",
-            "report",
-        ],
+    import pyroll.ui.cli.res.input_min as input_py
+    reload(input_py)
 
-    )
+    in_profile = input_py.in_profile
+    sequence = input_py.sequence
 
-    print("\n")
-    print(result.stdout)
-    print(result.exception)
+    in_profile.temperature = 1273
+    in_profile.density = 7e3
+    in_profile.thermal_capacity = 630
 
-    assert result.exception is None
-    assert result.exit_code == 0
+    solve(sequence, in_profile)
 
+    report = Reporter()
 
+    rendered = report.render(sequence)
+    print()
+
+    report_file = tmp_path / "report.html"
+    report_file.write_text(rendered)
+    print(report_file)
+
+    print("\nLog:")
+    print(caplog.text)

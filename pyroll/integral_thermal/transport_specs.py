@@ -1,6 +1,6 @@
 import sys
 
-from pyroll import Transport, TransportOutProfile
+from pyroll.core import Transport
 
 
 @Transport.hookspec
@@ -48,10 +48,4 @@ def temperature_change(transport):
     """Get the change in temperature within the transport."""
 
 
-@TransportOutProfile.hookspec
-def temperature(transport):
-    """Get the temperature of the out profile."""
-
-
 Transport.plugin_manager.add_hookspecs(sys.modules[__name__])
-TransportOutProfile.plugin_manager.add_hookspecs(sys.modules[__name__])

@@ -1,6 +1,6 @@
 import sys
 
-from pyroll import Profile
+from pyroll.core import Profile
 
 
 @Profile.hookspec
