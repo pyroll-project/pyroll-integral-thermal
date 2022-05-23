@@ -204,3 +204,8 @@ initial profile instance.
 The plugin extends the HTML report with implementations of `pass_properties` and `transport_properties` adding the
 distinct temperature changes. A `sequence_plot` is also implemented showing the temperature progression along the pass
 sequence.
+
+
+### Export
+
+The plugin extends the report with implementations of `columns` adding the `unit.in_proile.temperature` and `unit.out_proile.temperature`.

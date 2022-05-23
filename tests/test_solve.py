@@ -2,8 +2,8 @@ import logging
 from importlib import reload
 from pathlib import Path
 
-from pyroll.core import solve, RollPass
-from pyroll.ui import Reporter
+from pyroll.core import solve
+from pyroll.ui import Reporter, Exporter
 
 
 def test_solve(tmp_path: Path, caplog):
@@ -24,13 +24,20 @@ def test_solve(tmp_path: Path, caplog):
     solve(sequence, in_profile)
 
     report = Reporter()
+    export = Exporter()
+
+    export_file = tmp_path / "export.csv"
+    report_file = tmp_path / "report.html"
 
     rendered = report.render(sequence)
+    exported = export.export(sequence, "csv")
     print()
 
-    report_file = tmp_path / "report.html"
+    export_file.write_bytes(exported)
     report_file.write_text(rendered)
     print(report_file)
+    print(export_file)
+
 
     print("\nLog:")
     print(caplog.text)
