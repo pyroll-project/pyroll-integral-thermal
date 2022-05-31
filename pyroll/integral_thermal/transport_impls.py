@@ -8,13 +8,13 @@ stefan_boltzmann_coefficient = 5.670374419e-8
 @Transport.hookimpl
 def convection_heat_transfer_coefficient(transport: Transport):
     """Backup implementation"""
-    return 1.5
+    return 15
 
 
 @Transport.hookimpl
 def cooling_heat_transfer_coefficient(transport: Transport):
     """Backup implementation"""
-    return 15
+    return 150
 
 
 @Transport.hookimpl

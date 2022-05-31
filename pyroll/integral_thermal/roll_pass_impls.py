@@ -1,6 +1,7 @@
 import sys
 
 from pyroll.core import RollPass
+import numpy as np
 
 
 class RollImpls:
@@ -34,8 +35,8 @@ class RollPassImpls:
     @staticmethod
     @RollPass.hookimpl
     def temperature_change_by_contact(roll_pass: RollPass):
-        volume = ((roll_pass.in_profile.cross_section.area + roll_pass.out_profile.cross_section.area)
-                  / 2 * roll_pass.roll.contact_length)
+        volume = roll_pass.roll.contact_length / 3 * (roll_pass.in_profile.cross_section.area + roll_pass.out_profile.cross_section.area + np.sqrt(
+            roll_pass.in_profile.cross_section.area * roll_pass.out_profile.cross_section.area))
         area_volume_ratio = roll_pass.roll.contact_area * 2 / volume
         time = roll_pass.roll.contact_length / roll_pass.velocity
         denominator = (

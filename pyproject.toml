@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyroll-integral-thermal"
-version = "1.0.1"
+version = "1.0.2"
 description = "Plugin for PyRoll providing an integral approach for thermal modelling."
 authors = [
     "Max Weiner <max.weiner@imf.tu-freiberg.de>",
