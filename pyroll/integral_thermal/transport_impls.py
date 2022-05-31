@@ -41,7 +41,7 @@ def temperature_change_by_convection(transport: Transport):
                     * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
             ) * 2)
 
-    mean_temperature = (transport.in_profile.temperature + 2 * transport.out_profile.temperature) / 3
+    mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
 
     by_convection = -transport.convection_heat_transfer_coefficient * (
             mean_temperature - transport.atmosphere_temperature) * common_factor
@@ -61,7 +61,7 @@ def temperature_change_by_cooling(transport: Transport):
                     * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
             ) * 2)
 
-    mean_temperature = (transport.in_profile.temperature + 2 * transport.out_profile.temperature) / 3
+    mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
 
     by_cooling = -transport.cooling_heat_transfer_coefficient * (
             mean_temperature - transport.cooling_water_temperature) * common_factor
@@ -81,7 +81,7 @@ def temperature_change_by_radiation(transport: Transport):
                     * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
             ) * 2)
 
-    mean_temperature = (transport.in_profile.temperature + 2 * transport.out_profile.temperature) / 3
+    mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
 
     by_radiation = -transport.relative_radiation_coefficient * stefan_boltzmann_coefficient * (
             mean_temperature ** 4 - transport.atmosphere_temperature ** 4) * common_factor
