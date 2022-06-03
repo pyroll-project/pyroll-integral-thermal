@@ -42,7 +42,7 @@ class RollPassImpls:
         denominator = (
                               (roll_pass.in_profile.density + roll_pass.out_profile.density)
                               * (roll_pass.in_profile.thermal_capacity + roll_pass.out_profile.thermal_capacity)
-                      ) / 2
+                      ) / 4
         by_contact = -(
                 roll_pass.roll.contact_heat_transfer_coefficient * (
                 roll_pass.in_profile.temperature - roll_pass.roll.temperature)
@@ -62,7 +62,7 @@ class RollPassImpls:
         denominator = (
                               (roll_pass.in_profile.density + roll_pass.out_profile.density)
                               * (roll_pass.in_profile.thermal_capacity + roll_pass.out_profile.thermal_capacity)
-                      ) / 2
+                      ) / 4
         by_deformation = roll_pass.deformation_heat_efficiency * deformation_resistance * roll_pass.strain_change / denominator
 
         return by_deformation

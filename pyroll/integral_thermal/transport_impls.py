@@ -39,7 +39,7 @@ def temperature_change_by_convection(transport: Transport):
             / (
                     (transport.in_profile.density + transport.out_profile.density)
                     * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-            ) * 2)
+            ) * 4)
 
     mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
 
@@ -59,7 +59,7 @@ def temperature_change_by_cooling(transport: Transport):
             / (
                     (transport.in_profile.density + transport.out_profile.density)
                     * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-            ) * 2)
+            ) * 4)
 
     mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
 
@@ -79,7 +79,7 @@ def temperature_change_by_radiation(transport: Transport):
             / (
                     (transport.in_profile.density + transport.out_profile.density)
                     * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-            ) * 2)
+            ) * 4)
 
     mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
 
