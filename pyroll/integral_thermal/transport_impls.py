@@ -2,6 +2,8 @@ import sys
 
 from pyroll.core import Transport
 
+from pyroll.integral_thermal.helper import mean_temperature, mean_density, mean_thermal_capacity
+
 stefan_boltzmann_coefficient = 5.670374419e-8
 
 
@@ -34,19 +36,18 @@ def temperature_change_by_convection(transport: Transport):
     if not hasattr(transport, "atmosphere_temperature"):
         return 0
 
-    common_factor = (
-            transport.in_profile.cross_section.length * transport.duration / transport.in_profile.cross_section.area
-            / (
-                    (transport.in_profile.density + transport.out_profile.density)
-                    * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-            ) * 4)
-
-    mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
-
-    by_convection = -transport.convection_heat_transfer_coefficient * (
-            mean_temperature - transport.atmosphere_temperature) * common_factor
-
-    return by_convection
+    return -(
+            (
+                    transport.convection_heat_transfer_coefficient
+                    * (mean_temperature(transport) - transport.atmosphere_temperature)
+                    * transport.in_profile.cross_section.length
+                    * transport.duration
+            ) / (
+                    transport.in_profile.cross_section.area
+                    * mean_density(transport)
+                    * mean_thermal_capacity(transport)
+            )
+    )
 
 
 @Transport.hookimpl
@@ -54,19 +55,18 @@ def temperature_change_by_cooling(transport: Transport):
     if not hasattr(transport, "cooling_water_temperature"):
         return 0
 
-    common_factor = (
-            transport.in_profile.cross_section.length * transport.duration / transport.in_profile.cross_section.area
-            / (
-                    (transport.in_profile.density + transport.out_profile.density)
-                    * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-            ) * 4)
-
-    mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
-
-    by_cooling = -transport.cooling_heat_transfer_coefficient * (
-            mean_temperature - transport.cooling_water_temperature) * common_factor
-
-    return by_cooling
+    return -(
+            (
+                    transport.cooling_heat_transfer_coefficient
+                    * (mean_temperature(transport) - transport.cooling_water_temperature)
+                    * transport.in_profile.cross_section.length
+                    * transport.duration
+            ) / (
+                    transport.in_profile.cross_section.area
+                    * mean_density(transport)
+                    * mean_thermal_capacity(transport)
+            )
+    )
 
 
 @Transport.hookimpl
@@ -74,19 +74,19 @@ def temperature_change_by_radiation(transport: Transport):
     if not hasattr(transport, "atmosphere_temperature"):
         return 0
 
-    common_factor = (
-            transport.in_profile.cross_section.length * transport.duration / transport.in_profile.cross_section.area
-            / (
-                    (transport.in_profile.density + transport.out_profile.density)
-                    * (transport.in_profile.thermal_capacity + transport.out_profile.thermal_capacity)
-            ) * 4)
-
-    mean_temperature = (transport.in_profile.temperature + transport.out_profile.temperature) / 2
-
-    by_radiation = -transport.relative_radiation_coefficient * stefan_boltzmann_coefficient * (
-            mean_temperature ** 4 - transport.atmosphere_temperature ** 4) * common_factor
-
-    return by_radiation
+    return -(
+            (
+                    transport.relative_radiation_coefficient
+                    * stefan_boltzmann_coefficient
+                    * (mean_temperature(transport) ** 4 - transport.atmosphere_temperature ** 4)
+                    * transport.in_profile.cross_section.length
+                    * transport.duration
+            ) / (
+                    transport.in_profile.cross_section.area
+                    * mean_density(transport)
+                    * mean_thermal_capacity(transport)
+            )
+    )
 
 
 @Transport.hookimpl

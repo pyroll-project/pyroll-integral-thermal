@@ -3,6 +3,8 @@ import sys
 from pyroll.core import RollPass
 import numpy as np
 
+from pyroll.integral_thermal.helper import mean_temperature, mean_density, mean_thermal_capacity
+
 
 class RollImpls:
     @staticmethod
@@ -35,21 +37,19 @@ class RollPassImpls:
     @staticmethod
     @RollPass.hookimpl
     def temperature_change_by_contact(roll_pass: RollPass):
-        volume = roll_pass.roll.contact_length / 3 * (roll_pass.in_profile.cross_section.area + roll_pass.out_profile.cross_section.area + np.sqrt(
-            roll_pass.in_profile.cross_section.area * roll_pass.out_profile.cross_section.area))
-        area_volume_ratio = roll_pass.roll.contact_area * 2 / volume
         time = roll_pass.roll.contact_length / roll_pass.velocity
-        denominator = (
-                              (roll_pass.in_profile.density + roll_pass.out_profile.density)
-                              * (roll_pass.in_profile.thermal_capacity + roll_pass.out_profile.thermal_capacity)
-                      ) / 4
-        by_contact = -(
-                roll_pass.roll.contact_heat_transfer_coefficient * (
-                roll_pass.in_profile.temperature - roll_pass.roll.temperature)
-                * time * area_volume_ratio
-        ) / denominator
-
-        return by_contact
+        return -(
+                (
+                        roll_pass.roll.contact_heat_transfer_coefficient
+                        * (mean_temperature(roll_pass) - roll_pass.roll.temperature)
+                        * time
+                        * 2 * roll_pass.roll.contact_area
+                ) / (
+                        mean_density(roll_pass)
+                        * mean_thermal_capacity(roll_pass)
+                        * roll_pass.volume
+                )
+        )
 
     @staticmethod
     @RollPass.hookimpl
@@ -59,13 +59,16 @@ class RollPassImpls:
             if hasattr(roll_pass, "deformation_resistance")
             else (roll_pass.in_profile.flow_stress + 2 * roll_pass.out_profile.flow_stress) / 3
         )
-        denominator = (
-                              (roll_pass.in_profile.density + roll_pass.out_profile.density)
-                              * (roll_pass.in_profile.thermal_capacity + roll_pass.out_profile.thermal_capacity)
-                      ) / 4
-        by_deformation = roll_pass.deformation_heat_efficiency * deformation_resistance * roll_pass.strain_change / denominator
-
-        return by_deformation
+        return (
+                (
+                        roll_pass.deformation_heat_efficiency
+                        * deformation_resistance
+                        * roll_pass.strain_change
+                ) / (
+                        mean_density(roll_pass)
+                        * mean_thermal_capacity(roll_pass)
+                )
+        )
 
     @staticmethod
     @RollPass.hookimpl
