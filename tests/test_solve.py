@@ -1,9 +1,8 @@
 import logging
-from importlib import reload
 from pathlib import Path
 
-from pyroll.core import solve
-from pyroll.ui import Reporter, Exporter
+from pyroll.core import Profile, PassSequence, RollPass, Roll, CircularOvalGroove, Transport, RoundGroove
+from pyroll.report import report
 
 
 def test_solve(tmp_path: Path, caplog):
@@ -11,33 +10,62 @@ def test_solve(tmp_path: Path, caplog):
 
     import pyroll.integral_thermal
 
-    import pyroll.ui.cli.res.input_min as input_py
-    reload(input_py)
+    in_profile = Profile.round(
+        diameter=30e-3,
+        temperature=1200 + 273.15,
+        strain=0,
+        material=["C45", "steel"],
+        flow_stress=100e6,
+        density=7.5e3,
+        thermal_capacity=690,
+    )
 
-    in_profile = input_py.in_profile
-    sequence = input_py.sequence
+    sequence = PassSequence([
+        RollPass(
+            label="Oval I",
+            roll=Roll(
+                groove=CircularOvalGroove(
+                    depth=8e-3,
+                    r1=6e-3,
+                    r2=40e-3
+                ),
+                nominal_radius=160e-3,
+                rotational_frequency=1
+            ),
+            gap=2e-3,
+        ),
+        Transport(
+            label="I => II",
+            duration=1
+        ),
+        RollPass(
+            label="Round II",
+            roll=Roll(
+                groove=RoundGroove(
+                    r1=1e-3,
+                    r2=12.5e-3,
+                    depth=11.5e-3
+                ),
+                nominal_radius=160e-3,
+                rotational_frequency=1
+            ),
+            gap=2e-3,
+        ),
+    ])
 
-    in_profile.temperature = 1273
-    in_profile.density = 7e3
-    in_profile.thermal_capacity = 630
+    try:
+        sequence.solve(in_profile)
+    finally:
+        print("\nLog:")
+        print(caplog.text)
 
-    solve(sequence, in_profile)
-
-    report = Reporter()
-    export = Exporter()
-
-    export_file = tmp_path / "export.csv"
     report_file = tmp_path / "report.html"
 
-    rendered = report.render(sequence)
-    exported = export.export(sequence, "csv")
+    rendered = report(sequence)
     print()
 
-    export_file.write_bytes(exported)
     report_file.write_text(rendered)
     print(report_file)
-    print(export_file)
-
 
     print("\nLog:")
     print(caplog.text)

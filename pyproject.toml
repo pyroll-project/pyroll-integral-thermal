@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyroll-integral-thermal"
-version = "1.1.0"
+version = "2.0.0a"
 description = "Plugin for PyRoll providing an integral approach for thermal modelling."
 authors = [
     "Max Weiner <max.weiner@imf.tu-freiberg.de>",
@@ -22,12 +22,17 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9, <3.11"
-pyroll = "^1.0.0"
+python = ">=3.9, <4.0"
+pyroll-core = "^2.0.0a"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0.0"
-pyroll = { git = "https://github.com/pyroll-project/pyroll-core", branch="main", develop = true }
+
+[tool.poetry.group.report]
+optional = true
+
+[tool.poetry.group.report.dependencies]
+pyroll-report = "^2.0.0a"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

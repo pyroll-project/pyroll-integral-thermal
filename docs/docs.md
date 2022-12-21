@@ -96,7 +96,7 @@ For using the plugin you *must* implement the following hooks or set constant at
 
 Often you will modify the following hooks by own implementations or constant attributes:
 
-- [`Transport.atmosphere_temperature`](#transportatmosphere_temperature)
+- [`Transport.environment_temperature`](#transportenvironment_temperature)
 - [`Transport.cooling_water_temperature`](#transportcooling_water_temperature)
 - [`Transport.convection_heat_transfer_coefficient`](#transportconvection_heat_transfer_coefficient)
 - [`Transport.cooling_heat_transfer_coefficient`](#transportcooling_heat_transfer_coefficient)
@@ -106,7 +106,7 @@ Often you will modify the following hooks by own implementations or constant att
 
 ### Transports
 
-#### `Transport.atmosphere_temperature`
+#### `Transport.environment_temperature`
 
 The temperature of the environmental atmosphere $T_\infty$ for [convection](#convection) and [radiation](#radiation).
 The default implementation returns $293.15\,\mathrm{K}$.
@@ -134,7 +134,7 @@ implementation returns $0.8$.
 #### `Transport.temperature_change_by_convection`
 
 The temperature change of the profile due to convection. The default implementation follows the term
-in [described above](#convection). It returns $0$ if the `atmosphere_temperature` hook returns `None`.
+in [described above](#convection). It returns $0$ if the `environment_temperature` hook returns `None`.
 
 #### `Transport.temperature_change_by_cooling`
 
@@ -144,7 +144,7 @@ in [described above](#water-cooling). It returns $0$ if the `cooling_water_tempe
 #### `Transport.temperature_change_by_radiation`
 
 The temperature change of the profile due to radiation. The default implementation follows the term
-in [described above](#radiation). It returns $0$ if the `atmosphere_temperature` hook returns `None`.
+in [described above](#radiation). It returns $0$ if the `environment_temperature` hook returns `None`.
 
 #### `Transport.temperature_change`
 
