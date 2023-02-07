@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [envs.docs.scripts]
-build = "pandoc -o docs/docs.pdf docs/docs.pdf"
+build = "pandoc -o docs/docs.pdf docs/docs.md"
 
 [envs.test]
 path = ""
