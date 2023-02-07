@@ -10,9 +10,6 @@ requires-python = ">=3.9, <4.0"
 dependencies = [
     "pyroll-core ~= 2.0b",
 ]
-homepage = "https://pyroll.readthedocs.io/"
-repository = "https://github.com/pyroll-project/pyroll-integral-thermal"
-documentation = "https://github.com/pyroll-project/pyroll-integral-thermal/blob/main/docs/docs.pdf"
 readme = "README.md"
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -22,6 +19,11 @@ classifiers = [
 ]
 
 dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://pyroll-project.github.io"
+Repository = "https://github.com/pyroll-project/pyroll-integral-thermal"
+Documentation = "https://github.com/pyroll-project/pyroll-integral-thermal/blob/main/docs/docs.pdf"
 
 [build-system]
 requires = ["hatchling"]
