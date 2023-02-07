@@ -1,18 +1,18 @@
-[tool.poetry]
+[project]
 name = "pyroll-integral-thermal"
-version = "2.0.0a"
-description = "Plugin for PyRoll providing an integral approach for thermal modelling."
+description = "Plugin for PyRolL providing an integral thermal moddeling approach."
 authors = [
-    "Max Weiner <max.weiner@imf.tu-freiberg.de>",
-    "Christoph Renzing <christoph.renzing@imf.tu-freiberg.de>",
+    { name = "Christoph Renzing", email = "christoph.renzing@imf.tu-freiberg.de" },
+    { name = "Max Weiner", email = "max.weiner@imf.tu-freiberg.de" }
 ]
 license = "BSD-3-Clause"
-homepage = "https://pyroll-project.github.io/"
-repository = "https://github.com/pyroll-project/pyroll-integral-thermal"
-documentation = "https://pyroll-project.github.io/modules/pyroll-integral-thermal/docs/docs"
-packages = [
-    { include = "pyroll/integral_thermal" }
+requires-python = ">=3.9, <4.0"
+dependencies = [
+    "pyroll-core ~= 2.0b",
 ]
+homepage = "https://pyroll.readthedocs.io/"
+repository = "https://github.com/pyroll-project/pyroll-integral-thermal"
+documentation = "https://github.com/pyroll-project/pyroll-integral-thermal/blob/main/docs/docs.pdf"
 readme = "README.md"
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -21,19 +21,8 @@ classifiers = [
     "Topic :: Scientific/Engineering"
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.9, <4.0"
-pyroll-core = "^2.0.0a"
-
-[tool.poetry.dev-dependencies]
-pytest = "^7.0.0"
-
-[tool.poetry.group.report]
-optional = true
-
-[tool.poetry.group.report.dependencies]
-pyroll-report = "^2.0.0a"
+dynamic = ["version"]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
