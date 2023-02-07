@@ -1,8 +1,8 @@
 import logging
+import webbrowser
 from pathlib import Path
 
 from pyroll.core import Profile, PassSequence, RollPass, Roll, CircularOvalGroove, Transport, RoundGroove
-from pyroll.report import report
 
 
 def test_solve(tmp_path: Path, caplog):
@@ -20,38 +20,40 @@ def test_solve(tmp_path: Path, caplog):
         thermal_capacity=690,
     )
 
-    sequence = PassSequence([
-        RollPass(
-            label="Oval I",
-            roll=Roll(
-                groove=CircularOvalGroove(
-                    depth=8e-3,
-                    r1=6e-3,
-                    r2=40e-3
+    sequence = PassSequence(
+        [
+            RollPass(
+                label="Oval I",
+                roll=Roll(
+                    groove=CircularOvalGroove(
+                        depth=8e-3,
+                        r1=6e-3,
+                        r2=40e-3
+                    ),
+                    nominal_radius=160e-3,
+                    rotational_frequency=1
                 ),
-                nominal_radius=160e-3,
-                rotational_frequency=1
+                gap=2e-3,
             ),
-            gap=2e-3,
-        ),
-        Transport(
-            label="I => II",
-            duration=1
-        ),
-        RollPass(
-            label="Round II",
-            roll=Roll(
-                groove=RoundGroove(
-                    r1=1e-3,
-                    r2=12.5e-3,
-                    depth=11.5e-3
+            Transport(
+                label="I => II",
+                duration=1
+            ),
+            RollPass(
+                label="Round II",
+                roll=Roll(
+                    groove=RoundGroove(
+                        r1=1e-3,
+                        r2=12.5e-3,
+                        depth=11.5e-3
+                    ),
+                    nominal_radius=160e-3,
+                    rotational_frequency=1
                 ),
-                nominal_radius=160e-3,
-                rotational_frequency=1
+                gap=2e-3,
             ),
-            gap=2e-3,
-        ),
-    ])
+        ]
+    )
 
     try:
         sequence.solve(in_profile)
@@ -59,13 +61,11 @@ def test_solve(tmp_path: Path, caplog):
         print("\nLog:")
         print(caplog.text)
 
-    report_file = tmp_path / "report.html"
-
-    rendered = report(sequence)
-    print()
-
-    report_file.write_text(rendered)
-    print(report_file)
-
-    print("\nLog:")
-    print(caplog.text)
+    try:
+        from pyroll.report import report
+        report = report(sequence)
+        f = tmp_path / "report.html"
+        f.write_text(report)
+        webbrowser.open(f.as_uri())
+    except ImportError:
+        pass

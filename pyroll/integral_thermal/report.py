@@ -1,10 +1,6 @@
-import sys
-from typing import Sequence
-
 import numpy as np
 from pyroll.core import Unit, PassSequence
-from pyroll.report.pluggy import plugin_manager, hookimpl
-from pyroll.report import utils
+from pyroll.report import hookimpl, utils
 
 
 @hookimpl(specname="unit_plot")
@@ -29,6 +25,3 @@ def temperatures_plot(unit: Unit):
             ax.plot(x, y, marker="x")
 
             return fig
-
-
-plugin_manager.register(sys.modules[__name__])

@@ -1,14 +1,18 @@
 import importlib.util
 
-from . import roll_pass_specs
-from . import transport_specs
+from . import roll_pass
+from . import transport
 
-from . import roll_pass_impls
-from . import transport_impls
+VERSION = "2.0.0b"
 
 REPORT_INSTALLED = bool(importlib.util.find_spec("pyroll.report"))
 
 if REPORT_INSTALLED:
     from . import report
+    from pyroll.report import plugin_manager
 
-VERSION = "2.0.0b"
+    plugin_manager.register(report)
+
+from pyroll.core import root_hooks, Unit
+
+root_hooks.add(Unit.OutProfile.temperature)
