@@ -11,17 +11,30 @@ dependencies = [
     "pyroll-core ~= 2.0",
 ]
 readme = "README.md"
+
 classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Manufacturing",
     "Operating System :: OS Independent",
-    "Topic :: Scientific/Engineering"
+    "Topic :: Scientific/Engineering",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Hatch",
+    "Framework :: IPython",
+    "Framework :: Jupyter",
+    "Framework :: Pytest",
+    "Framework :: Sphinx",
+    "Natural Language :: English",
 ]
 
 dynamic = ["version"]
 
 [project.urls]
-Homepage = "https://pyroll-project.github.io"
+Homepage = "https://pyroll.readthedocs.io"
 Repository = "https://github.com/pyroll-project/pyroll-integral-thermal"
 Documentation = "https://github.com/pyroll-project/pyroll-integral-thermal/blob/main/docs/docs.pdf"
 
