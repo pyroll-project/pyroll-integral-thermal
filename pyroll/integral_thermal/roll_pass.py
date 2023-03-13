@@ -39,13 +39,12 @@ def default_deformation_heat_efficiency(self: RollPass):
 
 @RollPass.temperature_change_by_contact
 def temperature_change_by_contact(self: RollPass):
-    time = self.roll.contact_length / self.velocity
     return -(
             (
                     self.roll.contact_heat_transfer_coefficient
                     * (mean_temperature(self) - self.roll.temperature)
-                    * time
-                    * 2 * self.roll.contact_area
+                    * self.duration
+                    * self.contact_area
             ) / (
                     mean_density(self)
                     * mean_thermal_capacity(self)
@@ -65,7 +64,7 @@ def temperature_change_by_deformation(self: RollPass):
             (
                     self.deformation_heat_efficiency
                     * deformation_resistance
-                    * self.log_elongation
+                    * self.strain
             ) / (
                     mean_density(self)
                     * mean_thermal_capacity(self)

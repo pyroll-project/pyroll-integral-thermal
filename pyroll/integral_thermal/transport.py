@@ -1,5 +1,3 @@
-import sys
-
 from pyroll.core import Transport, Hook
 
 from pyroll.integral_thermal.helper import mean_temperature, mean_density, mean_thermal_capacity
