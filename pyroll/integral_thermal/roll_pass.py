@@ -57,7 +57,7 @@ def temperature_change_by_contact(self: RollPass):
 def temperature_change_by_deformation(self: RollPass):
     deformation_resistance = (
         self.deformation_resistance
-        if hasattr(self, "deformation_resistance")
+        if self.has_value("deformation_resistance")
         else (self.in_profile.flow_stress + 2 * self.out_profile.flow_stress) / 3
     )
     return (
