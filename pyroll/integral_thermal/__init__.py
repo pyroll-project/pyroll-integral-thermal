@@ -3,7 +3,7 @@ import importlib.util
 from . import roll_pass
 from . import transport
 
-VERSION = "2.0"
+VERSION = "2.1.0"
 
 REPORT_INSTALLED = bool(importlib.util.find_spec("pyroll.report"))
 

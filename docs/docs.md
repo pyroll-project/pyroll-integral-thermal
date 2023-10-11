@@ -1,7 +1,7 @@
 ---
-title: The PyRoll Integral Thermal Plugin  
-author: Max Weiner  
-date: 16.03.2022
+title: The PyRolL Integral Thermal Plugin  
+author: Max Weiner, Christoph Renzing  
+date: 16.03.2022, 11.10.2023
 ---
 
 ## Model approach
@@ -92,7 +92,7 @@ override their behavior.
 For using the plugin you *must* implement the following hooks or set constant attributes:
 
 - [`Profile.density`](#profiles)
-- [`Profile.thermal_capacity`](#profiles)
+- [`Profile.specific_heat_capacity`](#profiles)
 
 Often you will modify the following hooks by own implementations or constant attributes:
 
@@ -195,7 +195,7 @@ of `roll_pass.in_profile.temperature` and `roll_pass.temperature_change`.
 
 ### Profiles
 
-The plugin specifies two hooks on `Profile` meant for material data: `density` and `thermal_capacity`. The default
+The plugin specifies two hooks on `Profile` meant for material data: `density` and `specific_heat_capacity`. The default
 implementations throw solely errors, so you have to provide your own, or at least to define constant attributes on the
 initial profile instance.
 

@@ -1,6 +1,6 @@
 from pyroll.core import Transport, Hook
 
-from pyroll.integral_thermal.helper import mean_temperature, mean_density, mean_thermal_capacity
+from pyroll.integral_thermal.helper import mean_temperature, mean_density, mean_specific_heat_capacity
 
 Transport.cooling_water_temperature = Hook[float]()
 """Get the temperature of the cooling water."""
@@ -64,7 +64,7 @@ def temperature_change_by_convection(self: Transport):
             ) / (
                     self.in_profile.cross_section.area
                     * mean_density(self)
-                    * mean_thermal_capacity(self)
+                    * mean_specific_heat_capacity(self)
             )
     )
 
@@ -83,7 +83,7 @@ def temperature_change_by_cooling(self: Transport):
             ) / (
                     self.in_profile.cross_section.area
                     * mean_density(self)
-                    * mean_thermal_capacity(self)
+                    * mean_specific_heat_capacity(self)
             )
     )
 
@@ -103,7 +103,7 @@ def temperature_change_by_radiation(self: Transport):
             ) / (
                     self.in_profile.cross_section.area
                     * mean_density(self)
-                    * mean_thermal_capacity(self)
+                    * mean_specific_heat_capacity(self)
             )
     )
 

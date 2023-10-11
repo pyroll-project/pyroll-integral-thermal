@@ -1,6 +1,6 @@
-# PyRoll Integral Thermal Model
+# PyRolL Integral Thermal Model
 
-Plugin for PyRoll providing an integral approach for thermal modelling.
+Plugin for PyRolL providing an integral approach for thermal modelling.
 
 ## Documentation
 

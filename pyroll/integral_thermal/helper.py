@@ -9,5 +9,5 @@ def mean_density(unit: Unit):
     return (unit.in_profile.density + unit.out_profile.density) / 2
 
 
-def mean_thermal_capacity(unit: Unit):
-    return (unit.in_profile.thermal_capacity + unit.out_profile.thermal_capacity) / 2
+def mean_specific_heat_capacity(unit: Unit):
+    return (unit.in_profile.specific_heat_capacity + unit.out_profile.specific_heat_capacity) / 2

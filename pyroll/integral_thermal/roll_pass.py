@@ -1,5 +1,5 @@
 from pyroll.core import RollPass, Hook
-from pyroll.integral_thermal.helper import mean_temperature, mean_density, mean_thermal_capacity
+from pyroll.integral_thermal.helper import mean_temperature, mean_density, mean_specific_heat_capacity
 
 RollPass.deformation_heat_efficiency = Hook[float]()
 """Efficiency of heat generation through deformation. 1 means that all forming energy is dissipated as heat, 0 that all energy is saved in microstructure."""
@@ -47,7 +47,7 @@ def temperature_change_by_contact(self: RollPass):
                     * self.contact_area
             ) / (
                     mean_density(self)
-                    * mean_thermal_capacity(self)
+                    * mean_specific_heat_capacity(self)
                     * self.volume
             )
     )
@@ -67,7 +67,7 @@ def temperature_change_by_deformation(self: RollPass):
                     * self.strain
             ) / (
                     mean_density(self)
-                    * mean_thermal_capacity(self)
+                    * mean_specific_heat_capacity(self)
             )
     )
 
