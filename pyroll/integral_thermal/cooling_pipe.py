@@ -20,4 +20,4 @@ def default_cooling_water_temperature(self: CoolingPipe):
 def default_cooling_heat_transfer_coefficient_cooling_pipe(self: CoolingPipe):
     """Default value from measurements by H. Wehage; (Beitrag zur rechnergestützten Erarbeitung von Projekten und
     Technologien für kontinuierliche Feinstahl- und Drahtstraßen, PhD, TU Freiberg, 1990)"""
-    return 40000
+    return 4000
