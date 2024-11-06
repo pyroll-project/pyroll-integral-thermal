@@ -4,7 +4,7 @@ from . import roll_pass
 from . import transport
 from . import cooling_pipe
 
-VERSION = "2.1.2"
+VERSION = "3.0.0"
 
 REPORT_INSTALLED = bool(importlib.util.find_spec("pyroll.report"))
 
